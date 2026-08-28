@@ -43,9 +43,6 @@ builds:
       - -s -w -X github.com/henrygd/beszel/internal/ghupdate.buildGOARM={{ .Arm }}
     goos:
       - linux
-      - darwin
-      - freebsd
-      - openbsd
       - windows
     goarch:
       - amd64
