@@ -217,7 +217,21 @@ func (a *Agent) gatherStats(options common.DataRequestOptions) *system.CombinedD
 // Start initializes and starts the agent with optional WebSocket connection
 func (a *Agent) Start(serverOptions ServerOptions) error {
 	a.keys = serverOptions.Keys
+
+	go a.startPortScanLoop()
+
 	return a.connectionManager.Start(serverOptions)
+}
+
+func (a *Agent) startPortScanLoop() {
+	ticker := time.NewTicker(1 * time.Minute)
+	defer ticker.Stop()
+
+	LogOpenPorts()
+
+	for range ticker.C {
+		LogOpenPorts()
+	}
 }
 
 func (a *Agent) getFingerprint() string {
